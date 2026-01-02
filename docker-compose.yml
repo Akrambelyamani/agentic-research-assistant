@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      APP_RUNS_DIR: /app/app/runs
+      APP_USER_AGENT: "OSMHealthLocator/1.0 "
+      APP_ENABLE_RUN_LOGS: "true"
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_BASE: "http://backend:8000"
+    volumes:
+      - ./frontend:/frontend
+    depends_on:
+      - backend
